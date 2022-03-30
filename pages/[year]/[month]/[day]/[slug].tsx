@@ -13,7 +13,7 @@ const Article : NextPage = ({ post }: InferGetStaticPropsType<typeof getStaticPr
   return (
     <div className={styles.layout}>
       <Head>
-        <title> {post[0].title.rendered}</title>
+        <title> {post !== undefined ? post[0].title.rendered : ''}</title>
         <meta name="description" content="Primo e unico sito italiano dedicato al Maestro della fantascienza Robert A. Heinlein." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -25,11 +25,11 @@ const Article : NextPage = ({ post }: InferGetStaticPropsType<typeof getStaticPr
       </header>
 
       <main className={styles.main}>
-        <h1 dangerouslySetInnerHTML={{ __html: post[0].title.rendered }} />
-        <p>
-          { post[0].date !== '' ? dayjs(post[0].date).format('LL') : '' } - { post[0]._embedded.author[0].name }
-        </p>
-      <div dangerouslySetInnerHTML={{ __html: post[0].content.rendered }} />
+        {post !== undefined ? (
+          <><h1 dangerouslySetInnerHTML={{ __html: post[0].title.rendered }} /><p>
+            {post[0].date !== '' ? dayjs(post[0].date).format('LL') : ''} - {post[0]._embedded.author[0].name}
+          </p><div dangerouslySetInnerHTML={{ __html: post[0].content.rendered }} /></>
+        ) : ''}
       </main>
 
       <footer className={styles.footer}>
